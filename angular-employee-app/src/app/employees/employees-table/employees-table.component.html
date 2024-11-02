@@ -1,29 +1,46 @@
-
-
-    <select [(ngModel)]="selectedSort" (ngModelChange)="onSelectionChange($event)">
-        <option value="id">ID</option>
-        <option value="employee_name">Name</option>
-    </select>
-<input type="text" placeholder="Search" (input)="updateFilter($event)">
-<input type="number" (input)="findEmployeeById($event)">
-
-{{isVowelTxt$ | async}}
-<div class="table">
-    <div class="row table-header">
-        <!--sort filter by each col-->
-        <div class="cell">Avatar</div>
-        <div class="cell">
-            ID
+<div class="wrapper">
+    <h1 class="header">Employees</h1>
+    <div class="row input-row">
+        <div class="sort-select">
+            <select [(ngModel)]="selectedSort" (ngModelChange)="onSelectionChange($event)">
+                <option value="id">ID</option>
+                <option value="employee_name">Name</option>
+            </select>
+            
         </div>
-        <div class="cell">Name</div>
-        <div class="cell">Salary</div>
-        <div class="cell">Age</div>
+        <input id="searchInput" class="txtInput" type="text" placeholder="Search" (input)="updateFilter($event)">
     </div>
-    <div class="row" *ngFor="let employee of filteredEmployees$ | async">
-        <div class="cell"><img src="assets/avatar.svg" /></div>
-        <div class="cell">{{employee.id}}</div>
-        <div class="cell">{{employee.employee_name}}</div>
-        <div class="cell">{{employee.employee_salary}}</div>
-        <div class="cell">{{employee.employee_age}}</div>
+    
+    <div class="vowel-row">
+        <label for="vowel">Enter an employee ID</label>
+        <div>
+            <input id="vowel" type="number" (input)="findEmployeeById($event)">
+    
+            <h4 class="employee-vowel-txt">{{isVowelTxt$ | async}}</h4>
+            
+        </div>
     </div>
-  </div>
+    
+    <div class="table">
+        <div class="table-header">
+            <div class="cell"></div>
+            <div class="cell">
+                ID
+            </div>
+            <div class="cell">Name</div>
+            <div class="cell">Salary</div>
+            <div class="cell">Age</div>
+        </div>
+        <div>
+            <div *ngFor="let employee of filteredEmployees$ | async">
+                <div class="row">
+                    <div class="cell"><img src="assets/avatar.svg" /></div>
+                    <div class="cell"><span class="mobile-labels">ID: </span>{{employee.id}}</div>
+                    <div class="cell"><span class="mobile-labels">Name: </span>{{employee.employee_name}}</div>
+                    <div class="cell"><span class="mobile-labels">Salary: </span>{{employee.employee_salary}}</div>
+                    <div class="cell"><span class="mobile-labels">Age: </span>{{employee.employee_age}}</div>
+                </div>
+            </div>
+        </div>
+      </div>
+</div>

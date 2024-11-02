@@ -4,12 +4,10 @@ import { EmployeesService, employees } from '../../services/employees.service';
 import {
   BehaviorSubject,
   combineLatest,
-  filter,
   map,
   Observable,
   startWith,
 } from 'rxjs';
-import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'employees-table',
@@ -18,28 +16,20 @@ import { NgFor, AsyncPipe } from '@angular/common';
   styleUrl: './employees-table.component.scss',
 })
 export class EmployeesTableComponent implements OnInit {
-
-
   private employeesSubject = new BehaviorSubject<employees[] | null>(null);
   employees$ = this.employeesSubject.asObservable();
-
 
   sortedEmployees$ = new BehaviorSubject<any>(undefined);
 
   selectedSort$ = new BehaviorSubject<string>('');
-selectedSort: string = ''
+  selectedSort: string = '';
   searchValue$ = new BehaviorSubject<string>('');
   filteredEmployees$!: Observable<employees[] | null>;
 
   isVowelTxt$ = new BehaviorSubject<string>('');
 
   onSelectionChange(event: string) {
-    const field = event as keyof employees;
     this.selectedSort$.next(event);
-    let sortedEmployees: employees[] = [];
-
-
-
   }
 
   constructor(
@@ -53,50 +43,41 @@ selectedSort: string = ''
 
   ngOnInit() {
     this.employeesService.getEmployees().subscribe((data) => {
-      this.setEmployees(data)
+      this.setEmployees(data);
     });
 
-    this.selectedSort$.subscribe(value => {
+    this.selectedSort$.subscribe((value) => {
       this.selectedSort = value;
     });
 
     this.filteredEmployees$ = combineLatest([
       this.employees$,
       this.searchValue$,
-      this.selectedSort$
+      this.selectedSort$,
     ]).pipe(
       map(([data, filter, sort]) => {
         const sorted = this.sort(data, sort);
         const sortedThenFiltered = this.filter(sorted, filter);
-        if (sortedThenFiltered !== null) {
-          return sortedThenFiltered;
-        } else {
-          return sorted;
-        }
-      
+        return sortedThenFiltered;
       }),
-      startWith([])
+      startWith([]),
     );
   }
 
   sort(data: employees[] | null, sort: string): employees[] | null {
-    let key = sort as keyof(employees);
+    let key = sort as keyof employees;
 
-   if(data !== null) {
+    if (data !== null) {
       return data.sort((a, b) => {
-        if (typeof a === 'number' && typeof b === 'number') {
+        if (typeof a[key] === 'number' && typeof b[key] === 'number') {
           return a[key] - b[key];
-        } else if (
-          typeof a[key] === 'string' &&
-          typeof b[key] === 'string'
-        ) {
+        } else if (typeof a[key] === 'string' && typeof b[key] === 'string') {
           return a[key].localeCompare(b[key]);
         } else {
           return typeof a === 'number' ? -1 : 1;
         }
-    });
-    } 
-    else {
+      });
+    } else {
       return data;
     }
   }
@@ -106,14 +87,13 @@ selectedSort: string = ''
       if (filter === '') {
         return data;
       } else {
-        return data.filter((item: employees) => 
-          item.employee_name.toLowerCase().includes(filter.toLowerCase())
+        return data.filter((item: employees) =>
+          item.employee_name.toLowerCase().includes(filter.toLowerCase()),
         );
       }
     } else {
       return data;
     }
-
   }
 
   updateFilter(event: any) {
@@ -127,24 +107,23 @@ selectedSort: string = ''
   findEmployeeById(event: any) {
     let displayTxt = '';
 
-    this.employees$.pipe().subscribe(data => {
-      const employee = data?.find((x: any) => x.id.toString() === event.target.value);
+    this.employees$.pipe().subscribe((data) => {
+      const employee = data?.find(
+        (x: any) => x.id.toString() === event.target.value,
+      );
       const vowels = 'aeiouAEIOU';
-      
+
       if (!employee) {
-        displayTxt="Invalid Employee Id";
+        displayTxt = 'Invalid Employee Id';
       } else {
         if (vowels.indexOf(employee.employee_name[0]) !== -1) {
           displayTxt = employee.employee_name;
         } else {
-          displayTxt="Employee's name does not start with a vowel";
+          displayTxt = "Employee's name does not start with a vowel";
         }
       }
-
-
     });
 
-    this.isVowelTxt$.next(displayTxt)
+    this.isVowelTxt$.next(displayTxt);
   }
-
 }
