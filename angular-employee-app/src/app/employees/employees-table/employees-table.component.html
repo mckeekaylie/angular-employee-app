@@ -1,0 +1,29 @@
+
+
+    <select [(ngModel)]="selectedSort" (ngModelChange)="onSelectionChange($event)">
+        <option value="id">ID</option>
+        <option value="employee_name">Name</option>
+    </select>
+<input type="text" placeholder="Search" (input)="updateFilter($event)">
+<input type="number" (input)="findEmployeeById($event)">
+
+{{isVowelTxt$ | async}}
+<div class="table">
+    <div class="row table-header">
+        <!--sort filter by each col-->
+        <div class="cell">Avatar</div>
+        <div class="cell">
+            ID
+        </div>
+        <div class="cell">Name</div>
+        <div class="cell">Salary</div>
+        <div class="cell">Age</div>
+    </div>
+    <div class="row" *ngFor="let employee of filteredEmployees$ | async">
+        <div class="cell"><img src="assets/avatar.svg" /></div>
+        <div class="cell">{{employee.id}}</div>
+        <div class="cell">{{employee.employee_name}}</div>
+        <div class="cell">{{employee.employee_salary}}</div>
+        <div class="cell">{{employee.employee_age}}</div>
+    </div>
+  </div>
