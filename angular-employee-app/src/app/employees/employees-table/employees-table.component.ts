@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EmployeesService, employees } from '../../services/employees.service';
 import {
   BehaviorSubject,
@@ -7,6 +6,8 @@ import {
   map,
   Observable,
   startWith,
+  Subject,
+  takeUntil,
 } from 'rxjs';
 
 @Component({
@@ -15,25 +16,27 @@ import {
   templateUrl: './employees-table.component.html',
   styleUrl: './employees-table.component.scss',
 })
-export class EmployeesTableComponent implements OnInit {
+export class EmployeesTableComponent implements OnInit, OnDestroy {
   private employeesSubject = new BehaviorSubject<employees[] | null>(null);
   employees$ = this.employeesSubject.asObservable();
 
   sortedEmployees$ = new BehaviorSubject<any>(undefined);
 
-  selectedSort$ = new BehaviorSubject<string>('');
+  selectedSort$ = new BehaviorSubject<string>('id');
   selectedSort: string = '';
+
   searchValue$ = new BehaviorSubject<string>('');
   filteredEmployees$!: Observable<employees[] | null>;
 
   isVowelTxt$ = new BehaviorSubject<string>('');
+
+  onDestroy$: Subject<void> = new Subject();
 
   onSelectionChange(event: string) {
     this.selectedSort$.next(event);
   }
 
   constructor(
-    private http: HttpClient,
     private employeesService: EmployeesService,
   ) {}
 
@@ -42,11 +45,11 @@ export class EmployeesTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employeesService.getEmployees().subscribe((data) => {
+    this.employeesService.getEmployees().pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
       this.setEmployees(data);
     });
 
-    this.selectedSort$.subscribe((value) => {
+    this.selectedSort$.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
       this.selectedSort = value;
     });
 
@@ -107,7 +110,7 @@ export class EmployeesTableComponent implements OnInit {
   findEmployeeById(event: any) {
     let displayTxt = '';
 
-    this.employees$.pipe().subscribe((data) => {
+    this.employees$.pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
       const employee = data?.find(
         (x: any) => x.id.toString() === event.target.value,
       );
@@ -125,5 +128,10 @@ export class EmployeesTableComponent implements OnInit {
     });
 
     this.isVowelTxt$.next(displayTxt);
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

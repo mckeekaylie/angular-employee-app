@@ -2,12 +2,15 @@
     <h1 class="header">Employees</h1>
     <div class="row input-row">
         <div class="sort-select">
-            <select [(ngModel)]="selectedSort" (ngModelChange)="onSelectionChange($event)">
+            <select value="selectedSort" [(ngModel)]="selectedSort" (ngModelChange)="onSelectionChange($event)">
                 <option value="id">ID</option>
                 <option value="employee_name">Name</option>
             </select>
             
         </div>
+
+        <div class="spacer"></div>
+
         <input id="searchInput" class="txtInput" type="text" placeholder="Search" (input)="updateFilter($event)">
     </div>
     
@@ -17,7 +20,6 @@
             <input id="vowel" type="number" (input)="findEmployeeById($event)">
     
             <h4 class="employee-vowel-txt">{{isVowelTxt$ | async}}</h4>
-            
         </div>
     </div>
     
@@ -31,10 +33,10 @@
             <div class="cell">Salary</div>
             <div class="cell">Age</div>
         </div>
-        <div>
-            <div *ngFor="let employee of filteredEmployees$ | async">
-                <div class="row">
-                    <div class="cell"><img src="assets/avatar.svg" /></div>
+        <div class="table-body-wrapper">
+            <div class="rows-wrapper" *ngFor="let employee of filteredEmployees$ | async">
+                <div class="row table-row">
+                    <div class="cell"><img src="assets/avatar.svg" class="avatar" alt="profile icon" /></div>
                     <div class="cell"><span class="mobile-labels">ID: </span>{{employee.id}}</div>
                     <div class="cell"><span class="mobile-labels">Name: </span>
                         <a [routerLink]="['employee-detail', employee.id]" class="name-link">
