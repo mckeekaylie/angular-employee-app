@@ -1,0 +1,40 @@
+<div class="wrapper" *ngIf="employee$ | async as employee">
+    <h1 class="header">Employees</h1>
+
+    <div class="name-bar">
+        <h2>{{employee.employee_name}}</h2>
+    </div>
+
+    <div class="icon-row">
+        <div class="icon-wrapper">
+            <div class="icon-circle">
+                <img src="assets/card (1).svg" class="icon">
+            </div>
+
+            <h3 class="info-text line-1">Employee ID: </h3>
+            <h2 class="info-text line-2">{{employee.id}}</h2>
+        </div>
+
+        <div class="icon-wrapper">
+            <div class="icon-circle">
+                <img src="assets/salary (1).svg" class="icon">
+            </div>
+            <h3 class="info-text line-1">Employee Salary: </h3>
+            <h2 class="info-text line-2">{{employee.employee_salary}}</h2>
+        </div>
+
+        <div class="icon-wrapper">
+            <div class="icon-circle">
+                <img src="assets/age (1).svg" class="icon">
+            </div>
+            <h3 class="info-text line-1">Employee Age: </h3>
+            <h2 class="info-text line-2">{{employee.employee_age}}</h2>
+        </div>
+        
+        
+    </div>
+
+    <a class="return-btn" routerLink="/employees">
+        Return to employees
+    </a>
+</div>

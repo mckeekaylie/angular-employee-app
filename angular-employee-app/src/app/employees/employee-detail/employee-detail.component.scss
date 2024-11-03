@@ -1,0 +1,76 @@
+@use '../../../../public/assets/sass/variables' as vars;
+
+.name-bar {
+    background-color: vars.$maroon;
+    padding: 0.5rem;
+
+    h2 {
+        margin: 0;
+        color: vars.$peach;
+        font-weight: 500;
+    }
+}
+
+.icon-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    border-bottom: 0.18rem solid vars.$maroon;
+    padding-bottom: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    width: 10rem;
+    background-color: vars.$peach;
+    border: 0.25rem solid vars.$plum;
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.info-text {
+    &.line-1 {
+        font-weight: 400;
+    }
+    &.line-2 {
+        margin: 0;
+    }
+    text-align: center;
+    font-weight: 400;
+    color: vars.$maroon;
+}
+
+.icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: 6rem;
+        width: 6rem;
+        background-color: vars.$plum;
+        border-radius: 50%;
+
+        .icon {
+            width: 4rem;
+        }
+}
+
+.return-btn {
+    background-color: vars.$plum;
+    color: vars.$peach;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+}
+
+.return-btn:hover {
+    background-color: vars.$maroon;
+    color: vars.$peach;
+}

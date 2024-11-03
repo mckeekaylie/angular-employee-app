@@ -11,6 +11,7 @@ export class EmployeesService {
   getEmployees(): Observable<employees[]> {
     return this.http.get<employees[]>('assets/employees.json');
   }
+  
 }
 
 export interface employees {

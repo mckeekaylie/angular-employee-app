@@ -1,0 +1,10 @@
+@use '../../../../public/assets/sass/variables' as vars;
+
+.name-link {
+    text-decoration: none;
+    color: vars.$maroon;
+}
+
+.name-link:hover {
+    text-decoration: underline;
+}

@@ -36,7 +36,11 @@
                 <div class="row">
                     <div class="cell"><img src="assets/avatar.svg" /></div>
                     <div class="cell"><span class="mobile-labels">ID: </span>{{employee.id}}</div>
-                    <div class="cell"><span class="mobile-labels">Name: </span>{{employee.employee_name}}</div>
+                    <div class="cell"><span class="mobile-labels">Name: </span>
+                        <a [routerLink]="['employee-detail', employee.id]" class="name-link">
+                            {{employee.employee_name}}
+                        </a>
+                    </div>
                     <div class="cell"><span class="mobile-labels">Salary: </span>{{employee.employee_salary}}</div>
                     <div class="cell"><span class="mobile-labels">Age: </span>{{employee.employee_age}}</div>
                 </div>
