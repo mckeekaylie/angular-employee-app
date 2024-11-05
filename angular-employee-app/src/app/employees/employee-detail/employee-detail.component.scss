@@ -1,76 +1,76 @@
-@use '../../../../public/assets/sass/variables' as vars;
+@use "../../../../public/assets/sass/variables" as vars;
 
 .name-bar {
-    background-color: vars.$maroon;
-    padding: 0.5rem;
+  background-color: vars.$maroon;
+  padding: 0.5rem;
 
-    h2 {
-        margin: 0;
-        padding: 0.25rem 0.5rem;
-        color: vars.$blush;
-        font-weight: 500;
-    }
+  h2 {
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    color: vars.$blush;
+    font-weight: 500;
+  }
 }
 
 .icon-row {
-    background-color: vars.$peach;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    border-bottom: 0.18rem solid vars.$maroon;
-    padding: 2.5rem;
-    margin-bottom: 2.5rem;
+  background-color: vars.$peach;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: 0.18rem solid vars.$maroon;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .icon-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 1rem;
-    width: 10rem;
-    background-color: vars.$plumLight;
-    border: 0.25rem solid vars.$plum;
-    border-radius: 2rem;
-    padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  width: 10rem;
+  background-color: vars.$plumLight;
+  border: 0.25rem solid vars.$plum;
+  border-radius: 2rem;
+  padding: 2rem;
 }
 
 .icon-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 6rem;
-    width: 6rem;
-    background-color: vars.$maroon;
-    border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
+  width: 6rem;
+  background-color: vars.$maroon;
+  border-radius: 50%;
 
-    .icon {
-        width: 4rem;
-    }
+  .icon {
+    width: 4rem;
+  }
 }
 
 .info-text {
-    &.line-1 {
-        font-weight: 400;
-    }
-    &.line-2 {
-        margin: 0;
-    }
-    text-align: center;
+  &.line-1 {
     font-weight: 400;
-    color: vars.$maroon;
+  }
+  &.line-2 {
+    margin: 0;
+  }
+  text-align: center;
+  font-weight: 400;
+  color: vars.$maroon;
 }
 
 .return-btn {
-    background-color: vars.$maroon;
-    color: vars.$blush;
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
+  background-color: vars.$maroon;
+  color: vars.$blush;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
 }
 
 .return-btn:hover {
-    background-color: vars.$plum;
-    color: vars.$blush;
+  background-color: vars.$plum;
+  color: vars.$blush;
 }
