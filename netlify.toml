@@ -15,7 +15,7 @@ Access-Control-Allow-Origin = "*"
 
 [build]
 command = "npm run build"
-publish = "dist/kw-angular-contact-book/browser"
+publish = "dist/angular-employee-app/browser"
 
 [[redirects]]
 from = "/*"
