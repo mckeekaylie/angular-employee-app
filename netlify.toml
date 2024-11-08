@@ -17,11 +17,8 @@ package = "@netlify/angular-runtime"
 [plugins.inputs]
 
 [build]
-publish = "/Users/kayliemckee/Documents/GitHub/angular-employee-app/angular-employee-app/dist/angular-employee-app/browser"
-publishOrigin = "ui"
-commandOrigin = "ui"
-base = "/Users/kayliemckee/Documents/GitHub/angular-employee-app/angular-employee-app"
-command = "npm run build"
+  command = "npm run build"
+  publish = "dist/angular-employee-app/browser"
 
 [build.environment]
 
