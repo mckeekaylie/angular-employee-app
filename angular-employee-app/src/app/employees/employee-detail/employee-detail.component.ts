@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { employees, EmployeesService } from '../../services/employees.service';
+import { Employee, EmployeesService } from '../../services/employees.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -10,26 +10,29 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 })
 export class EmployeeDetailComponent implements OnInit, OnDestroy {
   @Input() id!: string;
-  
-  employee$ = new BehaviorSubject<any>(null);
+
+  employee$ = new BehaviorSubject<Employee | null>(null);
 
   onDestroy$: Subject<void> = new Subject();
 
-  constructor(
-    private employeesService: EmployeesService,
-  ) {}
+  constructor(private employeesService: EmployeesService) {}
 
   ngOnInit() {
-    this.employeesService.getEmployees().pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
-      let employee;
-      employee = Object.assign({}, ...data.filter(item => item.id.toString() === this.id));
-      this.employee$.next(employee);
-    });
+    this.employeesService
+      .getEmployees()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => {
+        let employee;
+        employee = Object.assign(
+          {},
+          ...data.filter((item) => item.id.toString() === this.id)
+        );
+        this.employee$.next(employee);
+      });
   }
 
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
-
 }

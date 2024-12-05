@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,13 +8,17 @@ import { Observable } from 'rxjs';
 export class EmployeesService {
   constructor(private http: HttpClient) {}
 
-  getEmployees(): Observable<employees[]> {
-    return this.http.get<employees[]>('assets/employees.json');
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>('assets/employees.json').pipe(
+      catchError((error) => {
+        console.error('Error fetching data:', error);
+        return of([]);
+      })
+    );
   }
-  
 }
 
-export interface employees {
+export interface Employee {
   id: number;
   employee_name: string;
   employee_salary: number;

@@ -2,40 +2,51 @@
 
 /* TABLE CONTROLS */
 
-/* div that wraps the select element */
-.sort-select {
-  display: flex;
-  width: fit-content;
-  border: 1px solid vars.$peach;
-  border-radius: 0.25em;
-  padding: 0.5rem 0.8rem;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: vars.$blush;
+.input-row {
+  #searchInput {
+    width: 100%;
+  }
+
+  div:nth-child(3),
+  div:nth-child(2) {
+    display: flex;
+  }
+
+  .sort-select {
+    display: flex;
+    width: fit-content;
+    border: 1px solid vars.$columbia;
+    border-radius: 0.25em;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: vars.$alice;
+  }
+
+  select {
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    height: inherit;
+  }
 }
 
-select {
-  background-color: transparent;
-  border: none;
-  padding: 0 1em 0 0;
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-  height: inherit;
+input {
+  background-color: vars.$alice;
+  color: vars.$astros;
+  border: 1px solid vars.$columbia;
+  border-radius: 0.25rem;
+  padding: 0.85rem;
+  font-size: 1rem;
 }
 
 .spacer {
   width: 1rem;
-}
-
-input {
-  background-color: vars.$blush;
-  border: 1px solid vars.$peach;
-  border-radius: 0.25rem;
-  padding: 0.85rem;
-  font-size: 1rem;
 }
 
 .vowel-row {
@@ -46,13 +57,12 @@ input {
   div {
     display: flex;
   }
-}
-
-.employee-vowel-txt {
-  margin: auto auto auto 1rem;
-  color: vars.$maroon;
-  font-weight: 400;
-  font-size: 1rem;
+  .employee-vowel-txt {
+    margin: auto auto auto 1rem;
+    color: vars.$astros;
+    font-weight: 400;
+    font-size: 1rem;
+  }
 }
 
 /* TABLE */
@@ -61,10 +71,17 @@ input {
   margin-top: 1rem;
 }
 
-.row:not(.table-header, .input-row, .vowel-row) {
-  background-color: vars.$peach;
-  color: vars.$maroon;
-  border-bottom: 0.5px solid vars.$plum;
+.not-found-wrapper {
+  background-color: white;
+  color: vars.$astros;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.row:not(.table-header, .input-row, .input-label-row, .vowel-row) {
+  background-color: white;
+  color: vars.$astros;
+  border-bottom: 0.5px solid vars.$astros;
 }
 
 .table-body-wrapper {
@@ -77,17 +94,13 @@ input {
   align-items: center;
 }
 
+.table-row:hover {
+  background-color: vars.$aero !important;
+  cursor: pointer;
+}
+
 .avatar {
   width: 2rem;
-}
-
-.name-link {
-  text-decoration: none;
-  color: vars.$maroon;
-}
-
-.name-link:hover {
-  text-decoration: underline;
 }
 
 /* MEDIA QUERIES */
@@ -99,8 +112,8 @@ input {
   }
 
   .table-header {
-    background-color: vars.$plum;
-    color: vars.$blush;
+    background-color: vars.$astros;
+    color: white;
     display: flex;
   }
 
@@ -138,16 +151,27 @@ input {
     text-align: center;
   }
 
+  .input-row {
+    flex-direction: column;
+    #searchInput {
+      margin: 1rem 0;
+    }
+  }
+
   .vowel-row {
     div {
       flex-direction: column;
       align-items: start;
     }
+
+    #vowelNumInput {
+      margin: 1rem 0;
+    }
   }
 
   .employee-vowel-txt {
     text-align: left;
-    margin: 1rem auto auto auto;
+    margin: 0 !important;
   }
 
   .row:not(.table-header, .input-row, .vowel-row) {

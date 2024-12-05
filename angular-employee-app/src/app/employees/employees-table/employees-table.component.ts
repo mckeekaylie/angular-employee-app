@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EmployeesService, employees } from '../../services/employees.service';
+import { EmployeesService, Employee } from '../../services/employees.service';
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   map,
   Observable,
@@ -17,18 +18,20 @@ import {
   styleUrl: './employees-table.component.scss',
 })
 export class EmployeesTableComponent implements OnInit, OnDestroy {
-  private employeesSubject = new BehaviorSubject<employees[] | null>(null);
+  private employeesSubject = new BehaviorSubject<Employee[] | null>(null);
   employees$ = this.employeesSubject.asObservable();
 
-  sortedEmployees$ = new BehaviorSubject<any>(undefined);
+  sortedEmployees$ = new BehaviorSubject<Employee[] | null>(null);
 
   selectedSort$ = new BehaviorSubject<string>('id');
   selectedSort: string = '';
 
   searchValue$ = new BehaviorSubject<string>('');
-  filteredEmployees$!: Observable<employees[] | null>;
+  filteredEmployees$!: Observable<Employee[] | null>;
 
   isVowelTxt$ = new BehaviorSubject<string>('');
+
+  isLoaded$ = new BehaviorSubject<boolean>(false);
 
   onDestroy$: Subject<void> = new Subject();
 
@@ -36,18 +39,23 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
     this.selectedSort$.next(event);
   }
 
-  constructor(
-    private employeesService: EmployeesService,
-  ) {}
+  constructor(private employeesService: EmployeesService) {}
 
-  setEmployees(data: any) {
+  setEmployees(data: Employee[]) {
     this.employeesSubject.next(data);
   }
 
   ngOnInit() {
-    this.employeesService.getEmployees().pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
-      this.setEmployees(data);
-    });
+    this.employeesService
+      .getEmployees()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => {
+        this.setEmployees(data);
+
+        setTimeout(() => {
+          this.isLoaded$.next(true);
+        }, 500);
+      });
 
     this.selectedSort$.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
       this.selectedSort = value;
@@ -61,14 +69,15 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
       map(([data, filter, sort]) => {
         const sorted = this.sort(data, sort);
         const sortedThenFiltered = this.filter(sorted, filter);
+
         return sortedThenFiltered;
       }),
-      startWith([]),
+      startWith([])
     );
   }
 
-  sort(data: employees[] | null, sort: string): employees[] | null {
-    let key = sort as keyof employees;
+  sort(data: Employee[] | null, sort: string): Employee[] | null {
+    let key = sort as keyof Employee;
 
     if (data !== null) {
       return data.sort((a, b) => {
@@ -85,13 +94,13 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  filter(data: employees[] | null, filter: string) {
+  filter(data: Employee[] | null, filter: string) {
     if (data !== null) {
       if (filter === '') {
         return data;
       } else {
-        return data.filter((item: employees) =>
-          item.employee_name.toLowerCase().includes(filter.toLowerCase()),
+        return data.filter((item: Employee) =>
+          item.employee_name.toLowerCase().includes(filter.toLowerCase())
         );
       }
     } else {
@@ -112,7 +121,7 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
 
     this.employees$.pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
       const employee = data?.find(
-        (x: any) => x.id.toString() === event.target.value,
+        (x: Employee) => x.id.toString() === event.target.value
       );
       const vowels = 'aeiouAEIOU';
 
@@ -120,9 +129,19 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
         displayTxt = 'Invalid Employee Id';
       } else {
         if (vowels.indexOf(employee.employee_name[0]) !== -1) {
-          displayTxt = employee.employee_name;
+          displayTxt =
+            'Yes,' +
+            ' ' +
+            employee.employee_name +
+            ' ' +
+            'starts with a vowel.';
         } else {
-          displayTxt = "Employee's name does not start with a vowel";
+          displayTxt =
+            'No,' +
+            ' ' +
+            employee.employee_name +
+            ' ' +
+            'does not start with a vowel.';
         }
       }
     });
